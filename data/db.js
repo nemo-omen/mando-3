@@ -1,8 +1,13 @@
-const Datastore = require('nedb');
+const {createRxDatabase, addRxPlugin} = require('rxdb');
 
-const users = new Datastore({filename: 'data/users.db', autoload: true});
-const graphics = new Datastore({filename: 'data/graphics.db', autoload: true});
-const shows = new Datastore({filename: 'data/shows.db', autoload: true});
+addRxPlugin(require('pouchdb-adapter-leveldb'));
+const leveldown = require('leveldown');
+
+async function createDb(name) {
+  graphics = await createRxDatabase({name: `/data/${name}`, adapter: leveldown});
+}
+
+console.dir('graphics',graphics);
 
 module.exports = {
   users,
